@@ -34,8 +34,8 @@ Feature: Desktop Checkout for Guest User
     Then I am redirected to the "Checkout" page
     When I click 'Buy now' button
     Then the following validation error messages are displayed on 'Delivery Address' form:
-      | Form field name | validaton error message                               |
-      | Email addres    | Please enter your Email address                       |
+      | Form field name | validation error message                              |
+      | Email address   | Please enter your Email address                       |
       | Full name       | Please enter your Full name                           |
       | Address line 1  | Please enter your Address line 1                      |
       | Town/City       | Please enter your Town/City                           |

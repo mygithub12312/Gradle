@@ -1,2 +1,4 @@
-package desktop.fragments;public class BasketPageFragment {
+package desktop.fragments;
+
+public class BasketPageFragment {
 }

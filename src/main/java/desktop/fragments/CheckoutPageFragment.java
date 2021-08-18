@@ -1,2 +1,4 @@
-package desktop.fragments;public class CheckoutPageFragment {
+package desktop.fragments;
+
+public class CheckoutPageFragment {
 }

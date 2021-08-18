@@ -1,22 +1,27 @@
 package desktop.fragments;
 
 import abstractClasses.fragment.AbstractFragment;
-import desktop.pages.HomePage;
+import driver.SingletonDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class HomePageFragment extends AbstractFragment {
+public class HeaderFragment extends AbstractFragment {
+
+    private static final String pageUrl = "https://www.bookdepository.com/";
 
     @FindBy(xpath = "//*[@class='text-input']")
-    private By searchField;
+    private WebElement searchField;
 
-    @FindBy(xpath = "//*[@class='header-search-btn']")
-    private By searchButton;
+    public void openHomePage() {
+        SingletonDriver.getDriver().get(pageUrl);
+    }
 
 
     public void fillSearchQuery(String query) {
+        searchField.sendKeys(query);
+        searchField.sendKeys(Keys.ENTER);
     }
-
 
 }
