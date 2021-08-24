@@ -3,7 +3,11 @@ package abstractClasses.page;
 import static driver.SingletonDriver.getDriver;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
-public abstract class AbstractPage {
+import driver.SingletonDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.WebDriverWaiter;
+
+public abstract class AbstractPage extends WebDriverWaiter {
 
     private String pageUrl;
     private String pageUrlPattern;
@@ -22,6 +26,10 @@ public abstract class AbstractPage {
 
     public String getPageUrlPattern() {
         return pageUrlPattern;
+    }
+
+    public void openWebsite(String url) {
+        SingletonDriver.getDriver().get(url);
     }
 
     public boolean checkUrl() {

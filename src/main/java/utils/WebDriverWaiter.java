@@ -9,6 +9,6 @@ public class WebDriverWaiter {
     protected WebDriverWait wait;
 
     public WebDriverWaiter() {
-        wait = new WebDriverWait(getDriver(), 5);
+        wait = new WebDriverWait(getDriver(), 10);
     }
 }

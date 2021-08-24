@@ -18,10 +18,13 @@ public class HeaderFragment extends AbstractFragment {
         SingletonDriver.getDriver().get(pageUrl);
     }
 
+    public void deleteCookies() {
+        SingletonDriver.getDriver().manage().deleteAllCookies();
+    }
+
 
     public void fillSearchQuery(String query) {
         searchField.sendKeys(query);
         searchField.sendKeys(Keys.ENTER);
     }
-
 }

@@ -3,9 +3,12 @@ package abstractClasses.fragment;
 import driver.SingletonDriver;
 import io.cucumber.java.eo.Se;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.WebDriverWaiter;
 
 import static driver.SingletonDriver.getDriver;
@@ -44,9 +47,24 @@ public abstract class AbstractFragment extends WebDriverWaiter {
         element.sendKeys(text);
     }
 
-    public void selectDropDownValue(WebElement element, String value) {
-        Select selectValue = new Select(element);
-        selectValue.selectByValue(value);
+    public Select selectValue(By by) {
+        return new Select(SingletonDriver.getDriver().findElement(by));
+    }
+
+    protected void selectByVisibleText(By by, String text){
+        selectValue(by).selectByVisibleText(text);
+    }
+
+    public String getText(By by) {
+        return findElement(by).getText();
+    }
+
+    public static void switchToDefaultContent(){
+        SingletonDriver.getDriver().switchTo().defaultContent();
+    }
+
+    public static void switchToIframe(WebElement frame) {
+        SingletonDriver.getDriver().switchTo().frame(frame);
     }
 
 }

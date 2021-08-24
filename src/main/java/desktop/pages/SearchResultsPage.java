@@ -1,5 +1,7 @@
 package desktop.pages;
 
-public class SearchResultsPage {
+import abstractClasses.page.AbstractPage;
+
+public class SearchResultsPage extends AbstractPage {
 
 }

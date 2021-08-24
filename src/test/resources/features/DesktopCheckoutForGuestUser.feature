@@ -15,9 +15,9 @@ Feature: Desktop Checkout for Guest User
       | Core Java Professional |
     And I apply the following search filters
       | Price range  | 30 € +        |
-      | Availability | In Stock (5)  |
-      | Language     | English (5)   |
-      | Format       | Paperback (5) |
+      | Availability | In Stock (6)  |
+      | Language     | English (16)   |
+      | Format       | Paperback (21) |
     Then Search results contain only the following products
       | Thinking in Java                                                      |
       | Think Java                                                            |
@@ -29,22 +29,22 @@ Feature: Desktop Checkout for Guest User
     Then I am redirected to the "Basket page"
     And Basket order summary is as following:
       | Delivery cost | Total   |
-      | FREE          | 64,61 € |
+      | FREE          | 88,95 € |
     When I click 'Checkout' button on 'Basket' page
     Then I am redirected to the "Checkout" page
     When I click 'Buy now' button
-    Then the following validation error messages are displayed on 'Delivery Address' form:
+    Then the following validation error messages are displayed on Delivery Address form:
       | Form field name | validation error message                              |
       | Email address   | Please enter your Email address                       |
       | Full name       | Please enter your Full name                           |
       | Address line 1  | Please enter your Address line 1                      |
       | Town/City       | Please enter your Town/City                           |
       | Postcode/ZIP    | Please enter your postcode/ZIP or write 'No Postcode' |
-    And the following validation error messages are displayed on 'Payment' form:
+    And the following validation error messages are displayed on Payment form:
       | Please enter your card number, Please enter your card's expiration date, Please enter your CVV |
     And Checkout order summary is as following:
       | Sub-total | Delivery | VAT    | Total   |
-      | 64,61 €   | FREE     | 0,00 € | 64,61 € |
+      | 88,95 €   | FREE     | 0,00 € | 88,95 € |
     And I checkout as a new customer with email "test@user.com"
     When I fill delivery address information manually:
       | Full name | Delivery country | Address line 1   | Address line 2   | Town/City | County/State | Postcode |

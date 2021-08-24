@@ -13,6 +13,10 @@ public class SingletonDriver {
 
     private static WebDriver instance;
 
+    public void setProperty() {
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+    }
+
     public static WebDriver getDriver() {
         if (instance == null) {
             instance = new ChromeDriver(getChromeOptions());
@@ -21,4 +25,9 @@ public class SingletonDriver {
         }
         return instance;
     }
+
+    public static void quitDriver() {
+        instance.quit();
+    }
+
 }

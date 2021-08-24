@@ -8,28 +8,78 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SearchResultsPageFragment extends AbstractFragment {
 
-    @FindBy(xpath = "//*[@name='price']")
-    private WebElement priceFilter;
+    private static final String pageUrl = "https://www.bookdepository.com/search";
 
-    @FindBy(xpath = "//*[@name='availability']")
-    private WebElement availabilityFilter;
+    private By priceFilter = By.xpath("//*[@name='price']");
 
-    @FindBy(xpath = "//*[@name='searchLang']")
-    private WebElement languageFilter;
+    private By availabilityFilter = By.xpath("//*[@name='availability']");
 
-    @FindBy(xpath = "//*[@name='format']")
-    private WebElement formatFilter;
+    private By languageFilter = By.xpath("//*[@name='searchLang']");
+
+    private By formatFilter = By.xpath("//*[@name='format']");
+
+    private By productTitles = By.xpath("//*[@class='title']");
 
     @FindBy(xpath = "//*[@data-isbn='9780131872486']")
     private WebElement addToCartButton;
 
-    public void selectDropdown() {
-        selectDropDownValue(priceFilter, "high");
-        selectDropDownValue(availabilityFilter, "1");
-        selectDropDownValue(languageFilter, "123");
-        selectDropDownValue(formatFilter, "1");
+    @FindBy(className = "modal-content")
+    private WebElement cartPopUp;
+
+    @FindBy(xpath = "//*[@class='btn btn-primary pull-right continue-to-basket string-to-localize link-to-localize']")
+    private WebElement basketButton;
+
+    private static final By applyFilters = By.xpath("//*[contains(button,'Refine results')]");
+
+    private static final String price = "Price range";
+    private static final String availability = "Availability";
+    private static final String language = "Language";
+    private static final String format = "Format";
+
+    public String getPageUrl() {
+        return pageUrl;
     }
+
+    public void addProductToBasket(String book) {
+        clickElement(addToCartButton);
+    }
+
+    public void switchToIFrame(String frame) {
+        clickElement(basketButton);
+    }
+
+    public void setApplyFilters(){
+        findElement(applyFilters).click();
+    }
+
+
+    public void setPriceFilter (String priceRefinementFilter){
+        selectByVisibleText(priceFilter,priceRefinementFilter);
+    }
+
+    public void setAvailabilityFilter (String availabilityRefinementFilter){
+        selectByVisibleText(availabilityFilter,availabilityRefinementFilter);
+    }
+
+    public void setLanguageFilter (String languageRefinementSelector){
+        selectByVisibleText(languageFilter,languageRefinementSelector);
+    }
+
+    public void setFormatFilter (String formatRefinementSelector){
+        selectByVisibleText(formatFilter,formatRefinementSelector);
+    }
+
+    public void selectFilters (Map<String, String> Filters){
+        setPriceFilter(Filters.get(price));
+        setAvailabilityFilter(Filters.get(availability));
+        setLanguageFilter(Filters.get(language));
+        setFormatFilter(Filters.get(format));
+        setApplyFilters();
+    }
+
 }
