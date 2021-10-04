@@ -20,6 +20,8 @@
     <src.dir>src/main</src.dir>
   </properties>
 
+
+
   <dependencies>
 
     <dependency>
@@ -27,6 +29,15 @@
       <artifactId>junit-platform-runner</artifactId>
       <version>1.5.2</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.1.0</version>
+      <scope>test</scope>
+    </dependency>
+
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -115,6 +126,19 @@
         <configuration>
           <source>8</source>
           <target>8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+        <configuration>
+          <parallel>methods</parallel>
+          <threadCount>2</threadCount>
+          <systemPropertyVariables>
+            <browser>chrome</browser>
+          </systemPropertyVariables>
+          <includes>CucumberTestRunner.class</includes>
         </configuration>
       </plugin>
     </plugins>

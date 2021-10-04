@@ -5,10 +5,11 @@ import driver.SingletonDriver;
 
 public class HeaderElement extends AbstractPage {
 
-    private static final String pageUrl = "https://www.bookdepository.com/";
+    private String homePageURL = "https://www.bookdepository.com/";
 
-    public void homePageUrl() {
-        setPageUrl(pageUrl);
+    public HeaderElement() {
+        setPageUrl(homePageURL);
     }
+
 
 }

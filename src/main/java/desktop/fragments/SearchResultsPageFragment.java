@@ -17,7 +17,7 @@ public class SearchResultsPageFragment extends AbstractFragment {
 
     private By priceFilter = By.xpath("//*[@name='price']");
 
-    private By availabilityFilter = By.xpath("//*[@name='availability']");
+    private By availabilityFilter = By.xpath("//*[@id='filterAvailability']");
 
     private By languageFilter = By.xpath("//*[@name='searchLang']");
 
@@ -45,11 +45,11 @@ public class SearchResultsPageFragment extends AbstractFragment {
         return pageUrl;
     }
 
-    public void addProductToBasket(String book) {
+    public void addProductToBasket() {
         clickElement(addToCartButton);
     }
 
-    public void switchToIFrame(String frame) {
+    public void clickPopUpBasketButton() {
         clickElement(basketButton);
     }
 
@@ -57,24 +57,43 @@ public class SearchResultsPageFragment extends AbstractFragment {
         findElement(applyFilters).click();
     }
 
+    public List<String> findBookTitles() {
+        return findElements(productTitles).stream().map(WebElement::getText).collect(Collectors.toList());
+    }
 
-    public void setPriceFilter (String priceRefinementFilter){
+    public boolean verifyThatBooksArePresentOnTheSearchResultPage(List<String> expectedBookTitles, List<String> actualBookTitles) {
+        for (String expectedBookTitle: expectedBookTitles){
+            for (String actualBookTitle: actualBookTitles){
+                if (expectedBookTitle.matches(actualBookTitle)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean verifyThatOnlyExpectedBooksArePresentOnTheSearchResultPage(List<String> expectedBookTitles, List<String> actualBookTitles){
+        return actualBookTitles.containsAll(expectedBookTitles);
+    }
+
+
+    public void setPriceFilter (String priceRefinementFilter) {
         selectByVisibleText(priceFilter,priceRefinementFilter);
     }
 
-    public void setAvailabilityFilter (String availabilityRefinementFilter){
+    public void setAvailabilityFilter (String availabilityRefinementFilter) {
         selectByVisibleText(availabilityFilter,availabilityRefinementFilter);
     }
 
-    public void setLanguageFilter (String languageRefinementSelector){
+    public void setLanguageFilter (String languageRefinementSelector) {
         selectByVisibleText(languageFilter,languageRefinementSelector);
     }
 
-    public void setFormatFilter (String formatRefinementSelector){
+    public void setFormatFilter (String formatRefinementSelector) {
         selectByVisibleText(formatFilter,formatRefinementSelector);
     }
 
-    public void selectFilters (Map<String, String> Filters){
+    public void selectFilters (Map<String, String> Filters) {
         setPriceFilter(Filters.get(price));
         setAvailabilityFilter(Filters.get(availability));
         setLanguageFilter(Filters.get(language));

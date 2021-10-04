@@ -38,6 +38,10 @@ public class CheckoutPageFragment extends AbstractFragment {
     private static final By vatTotal = By.xpath("//*[@class='text-right total-tax']");
     private static final By checkoutTotal = By.xpath("//*[@class='text-right total-price']");
 
+    private static final By cardNumberErrorMessage = By.xpath("//*[@class='buynow-error-msg']");
+    private static final By cardExpDateErrorMessage = By.xpath("//*[@class='buynow-error-msg']");
+    private static final By cardCvvErrorMessage = By.xpath("//*[@class='buynow-error-msg']");
+
     private static final String totalKey = "Sub-total";
     private static final String deliveryKey = "Delivery";
     private static final String vatKey = "VAT";
@@ -138,6 +142,18 @@ public class CheckoutPageFragment extends AbstractFragment {
 
     public String getCheckoutSummaryTotal() {
         return totalsKey;
+    }
+
+    public String getCardNumberErrorMessage() {
+        return findElement(cardNumberErrorMessage).getText();
+    }
+
+    public String getExpirationDateErrorMessage() {
+        return findElement(cardExpDateErrorMessage).getText();
+    }
+
+    public String getCvvErrorMessage() {
+        return findElement(cardCvvErrorMessage).getText();
     }
 
     public void fillInEmailAddress(String email) {

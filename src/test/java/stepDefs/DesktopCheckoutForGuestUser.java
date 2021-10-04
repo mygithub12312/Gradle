@@ -18,6 +18,7 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.it.Ma;
 import net.bytebuddy.implementation.bytecode.assign.TypeCasting;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -30,14 +31,15 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
     SearchResultsPageFragment searchResultsPageFragment = new SearchResultsPageFragment();
     BasketPageFragment basketPageFragment = new BasketPageFragment();
     CheckoutPageFragment checkoutPageFragment = new CheckoutPageFragment();
+    HeaderElement headerElement = new HeaderElement();
 
     @Given("^I am an anonymous customer with clear cookies$")
     public void iAmAnAnonymousCustomerWithClearCookies() {
         headerFragment.deleteCookies();
     }
 
-    @When("I open the {string}")
-    public void iOpenThe(String arg0) {
+    @When("I open the Home page")
+    public void iOpenThe() {
         headerFragment.openHomePage();
     }
 
@@ -49,15 +51,19 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
     @And("I am redirected to a {string}")
     public void iAmRedirectedToA(String arg0) {
         wait.until(ExpectedConditions.urlContains(searchResultsPageFragment.getPageUrl()));
-        Assertions.assertThat(SingletonDriver.getDriver().getCurrentUrl().contains(searchResultsPageFragment.getPageUrl()))
+        Assertions
+            .assertThat(SingletonDriver.getDriver().getCurrentUrl().contains(searchResultsPageFragment.getPageUrl()))
                 .overridingErrorMessage("Search page is not displayed")
                 .isTrue();
-
-
     }
 
     @And("Search results contain the following products")
     public void searchResultsContainTheFollowingProducts(List<String> expectedBooks) {
+        Assertions
+            .assertThat(searchResultsPageFragment
+                            .verifyThatBooksArePresentOnTheSearchResultPage(expectedBooks, searchResultsPageFragment.findBookTitles()))
+            .overridingErrorMessage("Following product is not displayed")
+            .isTrue();
     }
 
     @And("I apply the following search filters")
@@ -66,17 +72,20 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
     }
 
     @Then("Search results contain only the following products")
-    public void searchResultsContainOnlyTheFollowingProducts(List<String> books) {
+    public void searchResultsContainOnlyTheFollowingProducts(List<String> expectedBooks) {
+        Assertions
+            .assertThat(searchResultsPageFragment
+                            .verifyThatOnlyExpectedBooksArePresentOnTheSearchResultPage(expectedBooks, searchResultsPageFragment.findBookTitles()));
     }
 
-    @When("I click {string} button for product with name {string}")
-    public void iClickAddToBasketButtonForProductWithName(String arg0, String arg1) {
-        searchResultsPageFragment.addProductToBasket(arg0);
+    @When("I click Add to Basket button for product with name Thinking in Java")
+    public void iClickAddToBasketButtonForProductWithName() {
+        searchResultsPageFragment.addProductToBasket();
     }
 
     @And("I select {string} in basket pop-up")
     public void iSelectBasketCheckoutInBasketPopUp(String arg0) {
-        searchResultsPageFragment.switchToIFrame(arg0);
+        searchResultsPageFragment.clickPopUpBasketButton();
     }
 
     @Then("I am redirected to the {string}")
@@ -140,7 +149,15 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
     }
 
     @And("the following validation error messages are displayed on Payment form:")
-    public void areTheFollowingErrorMessagesDisplayedOnPaymentForm(String paymentValidation) {
+    public void areTheFollowingErrorMessagesDisplayedOnPaymentForm(List<String> paymentFormErrorMessages) {
+        Assertions.assertThat(checkoutPageFragment.getCardNumberErrorMessage().contains(paymentFormErrorMessages.get(0)))
+            .overridingErrorMessage("Wrong card number error message").isTrue();
+
+        Assertions.assertThat(checkoutPageFragment.getExpirationDateErrorMessage().contains(paymentFormErrorMessages.get(1)))
+            .overridingErrorMessage("Wrong expiration date error message").isTrue();
+
+        Assertions.assertThat(checkoutPageFragment.getCvvErrorMessage().contains(paymentFormErrorMessages.get(2)))
+            .overridingErrorMessage("Wrong CVV error message").isTrue();
     }
 
     @And("Checkout order summary is as following:")
@@ -172,8 +189,27 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
         checkoutPageFragment.fillInDeliveryAddressForm(deliveryAddress);
     }
 
-    @Then("there is no validation error messages displayed on {string} form")
-    public void thereIsNoValidationErrorMessagesDisplayedOnDeliveryAddressForm(String ard0) {
+    @Then("there is no validation error messages displayed on Delivery Address form")
+    public void thereIsNoValidationErrorMessagesDisplayedOnDeliveryAddressForm() {
+        Assertions.assertThat(checkoutPageFragment.getEmailAddressActualErrorMessage().isEmpty())
+            .overridingErrorMessage("Email Address error message is displayed")
+            .isTrue();
+
+        Assertions.assertThat(checkoutPageFragment.getNameErrorMessage().isEmpty())
+            .overridingErrorMessage("Full name error message is displayed")
+            .isTrue();
+
+        Assertions.assertThat(checkoutPageFragment.getAddressErrorMessage().isEmpty())
+            .overridingErrorMessage("Address line 1 error message is displayed")
+            .isTrue();
+
+        Assertions.assertThat(checkoutPageFragment.getTownCityErrorMessage().isEmpty())
+            .overridingErrorMessage("Town/city error message is displayed")
+            .isTrue();
+
+        Assertions.assertThat(checkoutPageFragment.getZipCodeErrorMessage().isEmpty())
+            .overridingErrorMessage("Postalcode error message is displayed")
+            .isTrue();
     }
 
     @When("I enter my card details")

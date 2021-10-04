@@ -23,6 +23,10 @@ public class HeaderFragment extends AbstractFragment {
     }
 
 
+    public HeaderFragment() {
+
+    }
+
     public void fillSearchQuery(String query) {
         searchField.sendKeys(query);
         searchField.sendKeys(Keys.ENTER);

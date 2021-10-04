@@ -2,6 +2,7 @@ package driver;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -13,8 +14,9 @@ public class SingletonDriver {
 
     private static WebDriver instance;
 
-    public void setProperty() {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+    public static void setProperty() {
+            System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+            System.setProperty("geckodriver.chrome.driver", "src/main/resources/geckodriver.exe");
     }
 
     public static WebDriver getDriver() {
@@ -25,9 +27,4 @@ public class SingletonDriver {
         }
         return instance;
     }
-
-    public static void quitDriver() {
-        instance.quit();
-    }
-
 }
