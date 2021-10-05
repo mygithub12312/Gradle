@@ -1,28 +1,29 @@
 package stepDefs;
 
-import static org.junit.Assert.assertThat;
-
 import abstractClasses.page.AbstractPage;
 import desktop.fragments.BasketPageFragment;
 import desktop.fragments.CheckoutPageFragment;
 import desktop.fragments.HeaderFragment;
 import desktop.fragments.SearchResultsPageFragment;
-import desktop.pages.HeaderElement;
 import driver.SingletonDriver;
-import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.it.Ma;
-import net.bytebuddy.implementation.bytecode.assign.TypeCasting;
+import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.apache.log4j.Logger;
+import hooks.ScreenShoot;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,18 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
     SearchResultsPageFragment searchResultsPageFragment = new SearchResultsPageFragment();
     BasketPageFragment basketPageFragment = new BasketPageFragment();
     CheckoutPageFragment checkoutPageFragment = new CheckoutPageFragment();
-    HeaderElement headerElement = new HeaderElement();
+
+    @After
+    public void getScreenshot(Scenario scenario) throws IOException{
+        Date currentDate = new Date();
+        String screenshotFileName = currentDate.toString().replace(" ", "-").replace(":", "-");
+        File screenshotFile = ((TakesScreenshot) SingletonDriver.getDriver()).getScreenshotAs(OutputType.FILE);
+
+        if (scenario.isFailed()){
+            FileUtils.copyFile(screenshotFile,new File(".//screenshot//"+screenshotFileName+".png"));
+        }
+    }
+
 
     @Given("^I am an anonymous customer with clear cookies$")
     public void iAmAnAnonymousCustomerWithClearCookies() {
