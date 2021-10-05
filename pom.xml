@@ -11,16 +11,24 @@
   <name>mavenProj</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>bintray-epam-reportportal</id>
+      <name>bintray</name>
+      <url>http://dl.bintray.com/epam/reportportal</url>
+    </repository>
+  </repositories>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <cucumber.version>6.6.1</cucumber.version>
+    <cucumber.version>5.7.0</cucumber.version>
     <src.dir>src/main</src.dir>
   </properties>
-
-
 
   <dependencies>
 
@@ -30,27 +38,10 @@
       <version>1.5.2</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.testng/testng -->
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>7.1.0</version>
-      <scope>test</scope>
-    </dependency>
-
-
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
       <version>5.8.0-M1</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>3.19.0</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -82,11 +73,38 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.11</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.19.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.14.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+    <dependency>
+      <groupId>com.epam.reportportal</groupId>
+      <artifactId>agent-java-cucumber5</artifactId>
+      <version>5.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.codeborne</groupId>
+      <artifactId>selenide</artifactId>
+      <version>5.25.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
-
   <build>
-<!--    <sourceDirectory>${src.dir}</sourceDirectory>-->
+    <!--    <sourceDirectory>${src.dir}</sourceDirectory>-->
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
@@ -100,10 +118,6 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.7.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.20.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
@@ -133,12 +147,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M5</version>
         <configuration>
-          <parallel>methods</parallel>
-          <threadCount>2</threadCount>
           <systemPropertyVariables>
-            <browser>chrome</browser>
+            <browser>firefox</browser>
           </systemPropertyVariables>
-          <includes>CucumberTestRunner.class</includes>
         </configuration>
       </plugin>
     </plugins>

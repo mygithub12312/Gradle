@@ -15,8 +15,8 @@ public class SingletonDriver {
     private static WebDriver instance;
 
     public static void setProperty() {
-            System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
-            System.setProperty("geckodriver.chrome.driver", "src/main/resources/geckodriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        System.setProperty("geckodriver.chrome.driver", "src/main/resources/geckodriver.exe");
     }
 
     public static WebDriver getDriver() {

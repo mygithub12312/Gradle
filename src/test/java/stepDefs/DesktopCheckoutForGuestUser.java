@@ -21,11 +21,14 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
 
 public class DesktopCheckoutForGuestUser extends AbstractPage {
+
+    final static Logger logger = Logger.getLogger(DesktopCheckoutForGuestUser.class);
 
     HeaderFragment headerFragment = new HeaderFragment();
     SearchResultsPageFragment searchResultsPageFragment = new SearchResultsPageFragment();
@@ -41,6 +44,7 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
     @When("I open the Home page")
     public void iOpenThe() {
         headerFragment.openHomePage();
+        logger.info("Page displayed");
     }
 
     @And("I search for {string}")
@@ -105,6 +109,7 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
         Assertions.assertThat(basketPageFragment.getBasketTotal())
                 .overridingErrorMessage("Order total does not equal to expected value")
                 .isEqualTo(expectedOrderSummary.get(basketPageFragment.getTotalPriceTitle()));
+        logger.error("Step Failed");
     }
 
     @When("I click {string} button on {string} page")
