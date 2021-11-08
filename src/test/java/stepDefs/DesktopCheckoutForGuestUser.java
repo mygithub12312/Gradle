@@ -13,7 +13,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -36,18 +35,6 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
     BasketPageFragment basketPageFragment = new BasketPageFragment();
     CheckoutPageFragment checkoutPageFragment = new CheckoutPageFragment();
 
-    @After
-    public void getScreenshot(Scenario scenario) throws IOException{
-        Date currentDate = new Date();
-        String screenshotFileName = currentDate.toString().replace(" ", "-").replace(":", "-");
-        File screenshotFile = ((TakesScreenshot) SingletonDriver.getDriver()).getScreenshotAs(OutputType.FILE);
-
-        if (scenario.isFailed()){
-            FileUtils.copyFile(screenshotFile,new File(".//screenshot//"+screenshotFileName+".png"));
-        }
-    }
-
-
     @Given("^I am an anonymous customer with clear cookies$")
     public void iAmAnAnonymousCustomerWithClearCookies() {
         headerFragment.deleteCookies();
@@ -56,7 +43,7 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
     @When("I open the Home page")
     public void iOpenThe() {
         headerFragment.openHomePage();
-        logger.info("Page displayed");
+//        logger.info("Page displayed");
     }
 
     @And("I search for {string}")
@@ -121,7 +108,7 @@ public class DesktopCheckoutForGuestUser extends AbstractPage {
         Assertions.assertThat(basketPageFragment.getBasketTotal())
                 .overridingErrorMessage("Order total does not equal to expected value")
                 .isEqualTo(expectedOrderSummary.get(basketPageFragment.getTotalPriceTitle()));
-        logger.error("Step Failed");
+        //logger.error("Step Failed");
     }
 
     @When("I click {string} button on {string} page")
