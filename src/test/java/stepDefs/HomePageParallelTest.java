@@ -9,6 +9,7 @@ public class HomePageParallelTest {
 
     @Given("I open the {string} Home Page and verify header is {string}")
     public void iOpenTheHttpsGoogleComHomePageAndVerifyHeaderIsGoogle(String pageUrl, String expectedHeader) {
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.get(pageUrl);
         Assertions.assertEquals(expectedHeader, driver.getTitle(), "Wrong page title");
