@@ -16,10 +16,6 @@ repositories {
     maven {
         url = uri('https://repo1.maven.org/maven2')
     }
-
-    maven {
-        url = uri('http://dl.bintray.com/epam/reportportal')
-    }
 }
 
 dependencies {
@@ -60,21 +56,27 @@ configurations {
     }
 }
 
-task cucumberRun() {
+task cucumberTask() {
     dependsOn assemble, testClasses
     doLast {
         javaexec {
             ignoreExitValue = true
             main = "io.cucumber.core.cli.Main"
-            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            classpath = sourceSets.main.runtimeClasspath + sourceSets.main.output + sourceSets.test.output
+            def tags = getProperty("tags")
+            def threads = getProperty("threads")
             args = [
                     '--plugin', 'pretty',
+                    '--plugin', 'html:target/cucumber-report.html',
+                    '--tags', tags,
                     '--glue', 'stepDefs', 'src/test/resources',
-                    '--tags', "@Parallel"]
+                    '--threads', threads
+            ]
         }
     }
 }
 
 test {
-   maxParallelForks(2)
+    exclude '**/TestRunner*'
+//    maxParallelForks(2)
 }
